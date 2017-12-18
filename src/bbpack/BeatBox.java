@@ -1,22 +1,27 @@
 
 package bbpack;
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
-import java.awt.Label;
+import java.awt.*;
 import javax.swing.*;
+import javax.swing.event.*;
 import javax.sound.midi.*;
 import java.util.*;
 import java.awt.event.*;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
+import java.net.*;
 
 public class BeatBox {
     JPanel mainPanel;
+    JList incomingList;
+    JTextField userMessage;
     ArrayList<JCheckBox> checkboxList;
+    int nextNum;
+    Vector<String> listVector = new Vector<String>();
+    String userName;
+    ObjectOutputStream out;
+    ObjectInputStream in;
+    HashMap<String, boolean[]> otherSeqsMap = new HashMap<String, boolean[]>();
     Sequencer sequencer;
+    Sequence mySequence = null;
     Sequence sequence;
     Track track;
     JFrame theFrame;
