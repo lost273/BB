@@ -36,14 +36,14 @@ public class MusicServer {
         }
     }
     public void go(){
-        clientOutputStream = new ArrayList<ObjectOutputStream>();
+        clientOutputStreams = new ArrayList<ObjectOutputStream>();
         
         try{
             ServerSocket serverSock = new ServerSocket(4242);
             while(true){
                 Socket clientSocket = serverSock.accept();
                 ObjectOutputStream out = new ObjectOutputStream(clientSocket.getOutputStream());
-                clientOutputStream.add(out);
+                clientOutputStreams.add(out);
                 
                 Thread t = new Thread(new ClientHandler(clientSocket));
                 t.start();
@@ -54,5 +54,16 @@ public class MusicServer {
             ex.printStackTrace();
         }
     }
-    
+    public void tellEveryone(Object one, Object two){
+        Iterator it = clientOutputStreams.iterator();
+        while(it.hasNext()){
+            try{
+                ObjectOutputStream out = (ObjectOutputStream) it.next();
+                out.writeObject(one);
+                out.writeObject(two);
+            } catch(Exception ex){
+                ex.printStackTrace();
+            }
+        }
+    }
 }
