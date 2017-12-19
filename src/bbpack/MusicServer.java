@@ -35,5 +35,24 @@ public class MusicServer {
             }
         }
     }
+    public void go(){
+        clientOutputStream = new ArrayList<ObjectOutputStream>();
+        
+        try{
+            ServerSocket serverSock = new ServerSocket(4242);
+            while(true){
+                Socket clientSocket = serverSock.accept();
+                ObjectOutputStream out = new ObjectOutputStream(clientSocket.getOutputStream());
+                clientOutputStream.add(out);
+                
+                Thread t = new Thread(new ClientHandler(clientSocket));
+                t.start();
+                
+                System.out.println("got a connection");
+            }
+        } catch(Exception ex){
+            ex.printStackTrace();
+        }
+    }
     
 }
