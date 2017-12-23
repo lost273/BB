@@ -34,11 +34,13 @@ public class BeatBox {
     int[] instruments = {35, 42, 46, 38, 49, 39, 50, 60, 70, 72, 64, 56, 58, 47, 67, 63};
     
     public static void main (String[] args){
+        //use argument as display name
         new BeatBox().startUp(args[0]);
     }
     public void startUp(String name){
         userName = name;
         try {
+            //open a connection to the server
             Socket sock = new Socket("127.0.0.1", 4242);
             out = new ObjectOutputStream(sock.getOutputStream());
             in = new ObjectInputStream(sock.getInputStream());
@@ -83,6 +85,8 @@ public class BeatBox {
         userMessage = new JTextField();
         buttonBox.add(userMessage);
         
+        //JList - displays incoming messages
+        //these messages can be selected
         incomingList = new JList();
         incomingList.addListSelectionListener(new MyListSelectionListener());
         incomingList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
