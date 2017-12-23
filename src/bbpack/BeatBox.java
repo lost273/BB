@@ -133,10 +133,11 @@ public class BeatBox {
         }
     }
     public void buildTrackAndStart(){
+        //it will contain the tools for each track
         ArrayList<Integer> trackList = null;
         sequence.deleteTrack(track);
         track = sequence.createTrack();
-       
+        //check the flags and implement them to instruments
         for (int i = 0; i < 16; i++){
             trackList = new ArrayList<Integer>();
             for (int j = 0; j < 16; j++){
@@ -145,11 +146,13 @@ public class BeatBox {
                     int key = instruments[i];
                     trackList.add(new Integer(key));
                 } else {
+                    //this slot must be empty in the track
                     trackList.add(null);
                 }
             }
             makeTracks(trackList);
         }
+        //we always have the full 16 takts
         track.add(makeEvent(192, 9, 1, 0, 15));
         try{
             sequencer.setSequence(sequence);
