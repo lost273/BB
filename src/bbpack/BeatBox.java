@@ -196,6 +196,7 @@ public class BeatBox {
             }
             String messageToSend = null;
             try{
+                //serialize two objects (string message and music template) and write them to the socket
                 out.writeObject(userName + nextNum++ + ":" + userMessage.getText());
                 out.writeObject(checkboxState);
             } catch(Exception ex){
@@ -204,11 +205,13 @@ public class BeatBox {
             userMessage.setText("");
         }
     }
+    //when user choose the track from list the listener download the music template
     public class MyListSelectionListener implements ListSelectionListener{
         public void valueChanged(ListSelectionEvent le){
             if(!le.getValueIsAdjusting()){
                 String selected = (String) incomingList.getSelectedValue();
                 if(selected != null){
+                    //go to displaying and to change the sequence
                     boolean[] selectedState = (boolean[]) otherSeqsMap.get(selected);
                     changeSequence(selectedState);
                     sequencer.stop();
@@ -217,12 +220,14 @@ public class BeatBox {
             }
         }
     }
+    //read the data (string message and music template) from the server
     public class RemoteReader implements Runnable{
         boolean[] checkboxState = null;
         String nameToShow = null;
         Object obj = null;
         public void run(){
             try{
+                //deserialize two objects and add the result to JList
                 while((obj=in.readObject()) != null){
                     System.out.println("got an object from server");
                     System.out.println(obj.getClass());
@@ -244,6 +249,7 @@ public class BeatBox {
             }
         }
     }
+    //activate when the user selects an item from the list
     public void changeSequence(boolean[] checkboxState){
         for(int i = 0; i < 256; i++){
             JCheckBox check = (JCheckBox) checkboxList.get(i);
